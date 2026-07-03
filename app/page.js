@@ -37,16 +37,24 @@ export default function Home() {
           zIndex: 100,
         }}
       >
-        <h2
+        <a
+          href="/"
           style={{
-            margin: 0,
-            letterSpacing: "8px",
-            fontWeight: "300",
-            fontSize: "22px",
+            textDecoration: "none",
+            color: "#fff",
           }}
         >
-          TOPBOY
-        </h2>
+          <h2
+            style={{
+              margin: 0,
+              letterSpacing: "8px",
+              fontWeight: "300",
+              fontSize: "22px",
+            }}
+          >
+            TOPBOY
+          </h2>
+        </a>
 
         <div
           style={{
@@ -56,9 +64,35 @@ export default function Home() {
             letterSpacing: "2px",
           }}
         >
-          <span>SHOP</span>
-          <span>ABOUT</span>
-          <span>🛒</span>
+          <a
+            href="#collections"
+            style={{
+              color: "#fff",
+              textDecoration: "none",
+            }}
+          >
+            SHOP
+          </a>
+
+          <a
+            href="#about"
+            style={{
+              color: "#fff",
+              textDecoration: "none",
+            }}
+          >
+            ABOUT
+          </a>
+
+          <a
+            href="/cart"
+            style={{
+              color: "#fff",
+              textDecoration: "none",
+            }}
+          >
+            🛒
+          </a>
         </div>
       </nav>
 
@@ -118,6 +152,7 @@ export default function Home() {
 
       {/* ABOUT */}
       <section
+        id="about"
         style={{
           padding: "100px 24px",
           textAlign: "center",
@@ -211,20 +246,22 @@ export default function Home() {
                 fashion and individuality.
               </p>
 
-              <button
-                style={{
-                  marginTop: "20px",
-                  background: "transparent",
-                  color: "#fff",
-                  border: "1px solid #fff",
-                  padding: "14px 28px",
-                  borderRadius: "999px",
-                  letterSpacing: "2px",
-                  cursor: "pointer",
-                }}
-              >
-                VIEW COLLECTION
-              </button>
+              <a href="/collections">
+                <button
+                  style={{
+                    marginTop: "20px",
+                    background: "transparent",
+                    color: "#fff",
+                    border: "1px solid #fff",
+                    padding: "14px 28px",
+                    borderRadius: "999px",
+                    letterSpacing: "2px",
+                    cursor: "pointer",
+                  }}
+                >
+                  VIEW COLLECTION
+                </button>
+              </a>
             </div>
           </div>
         ))}
