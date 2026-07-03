@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "../lib/supabase";
+import { supabase } from "../../lib/supabase";
 
 export default function AdminPage() {
   const [name, setName] = useState("");
@@ -40,7 +40,7 @@ export default function AdminPage() {
 
       const imageUrl = data.publicUrl;
 
-      // Save product row
+      // Save product to database
       const { data: productData, error: insertError } = await supabase
         .from("products")
         .insert({
@@ -56,9 +56,8 @@ export default function AdminPage() {
         throw insertError;
       }
 
-      alert("Product saved!");
-
       console.log(productData);
+      alert("Product saved!");
 
       setName("");
       setPrice("");
