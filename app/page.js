@@ -1,28 +1,16 @@
 export default function Home() {
-  const products = [
+  const collections = [
     {
       id: 1,
-      name: "TOPBOY Signature Tee",
-      price: 25000,
+      title: "ECLIPSE COLLECTION",
       image:
-        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800",
-      description: "Premium oversized heavyweight cotton tee.",
+        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=1200",
     },
     {
       id: 2,
-      name: "TOPBOY Essential Hoodie",
-      price: 45000,
+      title: "MIDNIGHT COLLECTION",
       image:
-        "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800",
-      description: "Heavyweight streetwear hoodie with relaxed fit.",
-    },
-    {
-      id: 3,
-      name: "TOPBOY Cargo Pants",
-      price: 40000,
-      image:
-        "https://images.unsplash.com/photo-1506629905607-d9c297dbe15f?w=800",
-      description: "Relaxed-fit cargo pants designed for modern streetwear.",
+        "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=1200",
     },
   ];
 
@@ -32,164 +20,210 @@ export default function Home() {
         backgroundColor: "#000",
         color: "#fff",
         minHeight: "100vh",
-        fontFamily: "Arial, sans-serif",
+        fontFamily:
+          '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
       }}
     >
       {/* NAVBAR */}
       <nav
         style={{
-          padding: "25px",
+          padding: "28px 24px",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
+          position: "sticky",
+          top: 0,
+          backgroundColor: "#000",
+          zIndex: 100,
         }}
       >
         <h2
           style={{
             margin: 0,
-            letterSpacing: "4px",
-            fontSize: "28px",
+            letterSpacing: "8px",
+            fontWeight: "300",
+            fontSize: "22px",
           }}
         >
           TOPBOY
         </h2>
 
-        <span style={{ fontSize: "28px" }}>🛒</span>
+        <div
+          style={{
+            display: "flex",
+            gap: "24px",
+            fontSize: "14px",
+            letterSpacing: "2px",
+          }}
+        >
+          <span>SHOP</span>
+          <span>ABOUT</span>
+          <span>🛒</span>
+        </div>
       </nav>
 
       {/* HERO */}
       <section
         style={{
+          minHeight: "85vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
           textAlign: "center",
-          padding: "80px 25px",
+          padding: "40px 24px",
         }}
       >
         <h1
           style={{
-            fontSize: "56px",
-            marginBottom: "20px",
-            letterSpacing: "8px",
+            fontSize: "64px",
+            margin: 0,
+            letterSpacing: "12px",
+            fontWeight: "300",
           }}
         >
           TOPBOY
         </h1>
 
-        <h2
-          style={{
-            fontSize: "32px",
-            marginBottom: "15px",
-          }}
-        >
-          OWN YOUR STYLE
-        </h2>
-
         <p
           style={{
-            color: "#b3b3b3",
-            marginBottom: "40px",
+            marginTop: "24px",
             fontSize: "18px",
+            letterSpacing: "3px",
+            color: "#b3b3b3",
+            textTransform: "uppercase",
           }}
         >
-          Premium Streetwear Collection
+          Custom Designed Streetwear
         </p>
 
-        <a href="#products">
+        <a href="#collections">
           <button
             style={{
+              marginTop: "50px",
               backgroundColor: "#fff",
               color: "#000",
               border: "none",
               borderRadius: "999px",
-              padding: "16px 35px",
-              fontWeight: "bold",
-              fontSize: "16px",
+              padding: "16px 34px",
+              fontWeight: "600",
+              letterSpacing: "2px",
               cursor: "pointer",
             }}
           >
-            SHOP NOW
+            SHOP COLLECTION
           </button>
         </a>
       </section>
 
-      {/* PRODUCTS */}
+      {/* ABOUT */}
       <section
-        id="products"
         style={{
-          padding: "25px",
+          padding: "100px 24px",
+          textAlign: "center",
+          maxWidth: "900px",
+          margin: "0 auto",
         }}
       >
-        <h2
+        <h3
           style={{
-            marginBottom: "30px",
-            letterSpacing: "3px",
-            fontSize: "28px",
+            letterSpacing: "6px",
+            fontWeight: "300",
+            marginBottom: "40px",
           }}
         >
-          NEW ARRIVALS
-        </h2>
+          ABOUT TOPBOY
+        </h3>
 
-        {products.map((product) => (
+        <p
+          style={{
+            color: "#b3b3b3",
+            fontSize: "18px",
+            lineHeight: "1.9",
+          }}
+        >
+          TOPBOY is a custom-designed streetwear label creating original pieces
+          with a focus on individuality, confidence, and elevated design.
+          Every collection is crafted to stand apart.
+        </p>
+      </section>
+
+      {/* COLLECTIONS */}
+      <section
+        id="collections"
+        style={{
+          padding: "0 24px 120px",
+        }}
+      >
+        <h3
+          style={{
+            letterSpacing: "6px",
+            fontWeight: "300",
+            marginBottom: "40px",
+            textAlign: "center",
+          }}
+        >
+          LATEST DROP
+        </h3>
+
+        {collections.map((collection) => (
           <div
-            key={product.id}
+            key={collection.id}
             style={{
+              marginBottom: "70px",
               backgroundColor: "#111",
-              borderRadius: "20px",
+              borderRadius: "28px",
               overflow: "hidden",
-              marginBottom: "30px",
             }}
           >
             <img
-              src={product.image}
-              alt={product.name}
+              src={collection.image}
+              alt={collection.title}
               style={{
                 width: "100%",
-                height: "300px",
+                height: "400px",
                 objectFit: "cover",
               }}
             />
 
-            <div style={{ padding: "20px" }}>
-              <h3
+            <div
+              style={{
+                padding: "35px 28px",
+              }}
+            >
+              <h2
                 style={{
                   marginTop: 0,
-                  fontSize: "24px",
+                  letterSpacing: "4px",
+                  fontWeight: "300",
                 }}
               >
-                {product.name}
-              </h3>
+                {collection.title}
+              </h2>
 
               <p
                 style={{
-                  color: "#d9d9d9",
-                  fontWeight: "bold",
-                  fontSize: "20px",
+                  color: "#b3b3b3",
+                  lineHeight: "1.8",
                 }}
               >
-                ₦{product.price.toLocaleString()}
-              </p>
-
-              <p
-                style={{
-                  color: "#999",
-                  lineHeight: "1.6",
-                }}
-              >
-                {product.description}
+                Custom-designed streetwear created with a premium approach to
+                fashion and individuality.
               </p>
 
               <button
                 style={{
-                  backgroundColor: "#fff",
-                  color: "#000",
-                  border: "none",
+                  marginTop: "20px",
+                  background: "transparent",
+                  color: "#fff",
+                  border: "1px solid #fff",
+                  padding: "14px 28px",
                   borderRadius: "999px",
-                  padding: "12px 25px",
-                  fontWeight: "bold",
-                  marginTop: "15px",
+                  letterSpacing: "2px",
                   cursor: "pointer",
                 }}
               >
-                ADD TO CART
+                VIEW COLLECTION
               </button>
             </div>
           </div>
@@ -200,22 +234,35 @@ export default function Home() {
       <footer
         style={{
           textAlign: "center",
-          padding: "60px 25px",
-          color: "#777",
+          padding: "80px 24px",
+          borderTop: "1px solid #222",
         }}
       >
-        <h3
+        <h2
           style={{
-            letterSpacing: "4px",
+            letterSpacing: "10px",
+            fontWeight: "300",
           }}
         >
           TOPBOY
-        </h3>
+        </h2>
 
-        <p>Premium Streetwear.</p>
-        <p>Instagram: @topboy</p>
+        <p
+          style={{
+            color: "#777",
+            marginTop: "20px",
+            lineHeight: "1.8",
+          }}
+        >
+          Custom Designed Streetwear
+        </p>
 
-        <p style={{ marginTop: "40px" }}>
+        <p
+          style={{
+            color: "#555",
+            marginTop: "40px",
+          }}
+        >
           © 2025 TOPBOY. All Rights Reserved.
         </p>
       </footer>
