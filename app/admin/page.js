@@ -1,147 +1,104 @@
 "use client";
 
 import { useState } from "react";
+import { supabase } from "../lib/supabase";
 
 export default function AdminPage() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const saveProduct = async () => {
+    if (!name || !price || !description || !image) {
+      alert("Please fill all fields.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Upload image
+      const fileName = `${Date.now()}-${image.name}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("products")
+        .upload(fileName, image);
+
+      if (uploadError) throw uploadError;
+
+      // Get public image URL
+      const { data } = supabase.storage
+        .from("products")
+        .getPublicUrl(fileName);
+
+      const imageUrl = data.publicUrl;
+
+      // Save product
+      const { error } = await supabase.from("products").insert({
+        name,
+        price: Number(price),
+        description,
+        image: imageUrl,
+      });
+
+      if (error) throw error;
+
+      alert("Product saved!");
+
+      setName("");
+      setPrice("");
+      setDescription("");
+      setImage(null);
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong.");
+    }
+
+    setLoading(false);
+  };
 
   return (
-    <main
-      style={{
-        background: "#000",
-        minHeight: "100vh",
-        padding: "40px 20px",
-        color: "#fff",
-        fontFamily: "sans-serif",
-      }}
-    >
-      <h1
-        style={{
-          textAlign: "center",
-          letterSpacing: "8px",
-          marginBottom: "40px",
-        }}
-      >
-        TOPBOY ADMIN
-      </h1>
+    <main style={{ background: "#000", minHeight: "100vh", color: "#fff", padding: "30px" }}>
+      <h1>TOPBOY ADMIN</h1>
 
-      <div
-        style={{
-          maxWidth: "700px",
-          margin: "0 auto",
-          background: "#111",
-          padding: "30px",
-          borderRadius: "30px",
-        }}
-      >
-        <h2
-          style={{
-            marginBottom: "40px",
-          }}
-        >
-          Add Product
-        </h2>
+      <input
+        placeholder="Product Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
 
-        {/* Product Name */}
-        <p>Product Name</p>
-        <input
-          type="text"
-          placeholder="Eclipse Tee"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "18px",
-            borderRadius: "18px",
-            border: "none",
-            marginBottom: "35px",
-            fontSize: "16px",
-          }}
-        />
+      <br /><br />
 
-        {/* Price */}
-        <p>Price</p>
-        <input
-          type="number"
-          placeholder="25000"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "18px",
-            borderRadius: "18px",
-            border: "none",
-            marginBottom: "35px",
-            fontSize: "16px",
-          }}
-        />
+      <input
+        type="number"
+        placeholder="Price"
+        value={price}
+        onChange={(e) => setPrice(e.target.value)}
+      />
 
-        {/* Description */}
-        <p>Description</p>
-        <textarea
-          placeholder="Premium heavyweight cotton tee."
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          style={{
-            width: "100%",
-            height: "180px",
-            padding: "18px",
-            borderRadius: "18px",
-            border: "none",
-            marginBottom: "35px",
-            fontSize: "16px",
-            resize: "none",
-          }}
-        />
+      <br /><br />
 
-        {/* Image Upload */}
-        <p>Product Image</p>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setImage(e.target.files[0])}
-          style={{
-            width: "100%",
-            padding: "18px",
-            borderRadius: "18px",
-            background: "#fff",
-            color: "#000",
-            marginBottom: "35px",
-          }}
-        />
+      <textarea
+        placeholder="Description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+      />
 
-        {/* Preview */}
-        {image && (
-          <img
-            src={URL.createObjectURL(image)}
-            alt="Preview"
-            style={{
-              width: "100%",
-              borderRadius: "20px",
-              marginBottom: "35px",
-            }}
-          />
-        )}
+      <br /><br />
 
-        {/* Save Button */}
-        <button
-          style={{
-            background: "#fff",
-            color: "#000",
-            border: "none",
-            padding: "18px 35px",
-            borderRadius: "999px",
-            fontWeight: "bold",
-            fontSize: "18px",
-            cursor: "pointer",
-          }}
-        >
-          SAVE PRODUCT
-        </button>
-      </div>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => setImage(e.target.files[0])}
+      />
+
+      <br /><br />
+
+      <button onClick={saveProduct} disabled={loading}>
+        {loading ? "Saving..." : "SAVE PRODUCT"}
+      </button>
     </main>
   );
 }
