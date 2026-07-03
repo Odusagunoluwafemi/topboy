@@ -9,39 +9,51 @@ export default function Home() {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        padding: "20px",
         textAlign: "center",
+        padding: "24px",
       }}
     >
       <h1
         style={{
           fontSize: "3rem",
           letterSpacing: "12px",
-          marginBottom: "20px",
+          margin: 0,
+          marginBottom: "32px",
+          fontWeight: "700",
         }}
       >
         TOPBOY
       </h1>
 
+      <h2
+        style={{
+          fontSize: "2rem",
+          margin: 0,
+          marginBottom: "12px",
+        }}
+      >
+        OWN YOUR STYLE
+      </h2>
+
       <p
         style={{
-          fontSize: "1.2rem",
-          color: "#ccc",
+          color: "#b3b3b3",
+          fontSize: "1.1rem",
           marginBottom: "40px",
         }}
       >
-        Own Your Style
+        Premium Streetwear Collection
       </p>
 
       <button
         style={{
-          background: "#fff",
+          backgroundColor: "#fff",
           color: "#000",
           border: "none",
-          padding: "14px 32px",
           borderRadius: "999px",
+          padding: "14px 32px",
           fontSize: "1rem",
-          cursor: "pointer",
+          fontWeight: "600",
         }}
       >
         SHOP NOW
