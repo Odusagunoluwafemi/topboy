@@ -11,6 +11,8 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false);
 
   const saveProduct = async () => {
+    alert("Save button clicked");
+
     if (!name || !price || !description || !image) {
       alert("Please fill all fields.");
       return;
@@ -26,26 +28,37 @@ export default function AdminPage() {
         .from("products")
         .upload(fileName, image);
 
-      if (uploadError) throw uploadError;
+      if (uploadError) {
+        alert(`Upload error: ${uploadError.message}`);
+        throw uploadError;
+      }
 
-      // Get public image URL
+      // Get public URL
       const { data } = supabase.storage
         .from("products")
         .getPublicUrl(fileName);
 
       const imageUrl = data.publicUrl;
 
-      // Save product
-      const { error } = await supabase.from("products").insert({
-        name,
-        price: Number(price),
-        description,
-        image: imageUrl,
-      });
+      // Save product row
+      const { data: productData, error: insertError } = await supabase
+        .from("products")
+        .insert({
+          name,
+          price: Number(price),
+          description,
+          image: imageUrl,
+        })
+        .select();
 
-      if (error) throw error;
+      if (insertError) {
+        alert(`Insert error: ${insertError.message}`);
+        throw insertError;
+      }
 
       alert("Product saved!");
+
+      console.log(productData);
 
       setName("");
       setPrice("");
@@ -53,14 +66,21 @@ export default function AdminPage() {
       setImage(null);
     } catch (err) {
       console.error(err);
-      alert("Something went wrong.");
+      alert(`Something went wrong: ${err.message}`);
     }
 
     setLoading(false);
   };
 
   return (
-    <main style={{ background: "#000", minHeight: "100vh", color: "#fff", padding: "30px" }}>
+    <main
+      style={{
+        background: "#000",
+        minHeight: "100vh",
+        color: "#fff",
+        padding: "30px",
+      }}
+    >
       <h1>TOPBOY ADMIN</h1>
 
       <input
@@ -69,7 +89,8 @@ export default function AdminPage() {
         onChange={(e) => setName(e.target.value)}
       />
 
-      <br /><br />
+      <br />
+      <br />
 
       <input
         type="number"
@@ -78,7 +99,8 @@ export default function AdminPage() {
         onChange={(e) => setPrice(e.target.value)}
       />
 
-      <br /><br />
+      <br />
+      <br />
 
       <textarea
         placeholder="Description"
@@ -86,7 +108,8 @@ export default function AdminPage() {
         onChange={(e) => setDescription(e.target.value)}
       />
 
-      <br /><br />
+      <br />
+      <br />
 
       <input
         type="file"
@@ -94,7 +117,8 @@ export default function AdminPage() {
         onChange={(e) => setImage(e.target.files[0])}
       />
 
-      <br /><br />
+      <br />
+      <br />
 
       <button onClick={saveProduct} disabled={loading}>
         {loading ? "Saving..." : "SAVE PRODUCT"}
