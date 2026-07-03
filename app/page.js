@@ -1,18 +1,9 @@
-export default function Home() {
-  const products = [
-    {
-      name: "OVERSIZED TEE",
-      price: "₦25,000",
-    },
-    {
-      name: "ESSENTIAL HOODIE",
-      price: "₦45,000",
-    },
-    {
-      name: "GRAPHIC TEE",
-      price: "₦30,000",
-    },
-  ];
+import { supabase } from "../lib/supabase";
+
+export default async function Home() {
+  const { data: products } = await supabase
+    .from("products")
+    .select("*");
 
   return (
     <main
@@ -30,7 +21,7 @@ export default function Home() {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          marginBottom: "80px",
+          marginBottom: "60px",
         }}
       >
         <h2
@@ -58,14 +49,14 @@ export default function Home() {
       <section
         style={{
           textAlign: "center",
-          marginBottom: "100px",
+          marginBottom: "80px",
         }}
       >
         <h1
           style={{
             fontSize: "3rem",
-            marginBottom: "20px",
             letterSpacing: "4px",
+            marginBottom: "20px",
           }}
         >
           TOPBOY
@@ -104,7 +95,7 @@ export default function Home() {
         </button>
       </section>
 
-      {/* NEW ARRIVALS */}
+      {/* PRODUCTS */}
       <section>
         <h2
           style={{
@@ -122,34 +113,41 @@ export default function Home() {
             gap: "20px",
           }}
         >
-          {products.map((product) => (
+          {products?.map((product) => (
             <div
-              key={product.name}
+              key={product.id}
               style={{
                 background: "#111",
                 borderRadius: "20px",
                 padding: "20px",
               }}
             >
-              <div
+              <img
+                src={product.image}
+                alt={product.name}
                 style={{
-                  height: "220px",
-                  background: "#1a1a1a",
+                  width: "100%",
+                  height: "250px",
+                  objectFit: "cover",
                   borderRadius: "14px",
                   marginBottom: "20px",
                 }}
               />
 
               <h3>{product.name}</h3>
+
               <p style={{ color: "#b3b3b3" }}>
-                {product.price}
+                ₦{product.price.toLocaleString()}
+              </p>
+
+              <p style={{ color: "#888" }}>
+                {product.description}
               </p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* FOOTER */}
       <footer
         style={{
           textAlign: "center",
