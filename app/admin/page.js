@@ -11,17 +11,20 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false);
 
   const saveProduct = async () => {
-    alert("Save button clicked");
+    alert("1. Save button clicked");
 
     if (!name || !price || !description || !image) {
-      alert("Please fill all fields.");
+      alert("2. Please fill all fields and select an image.");
       return;
     }
+
+    alert("3. Passed validation");
 
     setLoading(true);
 
     try {
-      // Upload image
+      alert("4. Uploading image...");
+
       const fileName = `${Date.now()}-${image.name}`;
 
       const { error: uploadError } = await supabase.storage
@@ -29,18 +32,20 @@ export default function AdminPage() {
         .upload(fileName, image);
 
       if (uploadError) {
-        alert(`Upload error: ${uploadError.message}`);
+        alert(`5. Upload error: ${uploadError.message}`);
         throw uploadError;
       }
 
-      // Get public URL
-      const { data } = supabase.storage
+      alert("6. Image uploaded");
+
+      const { data: publicData } = supabase.storage
         .from("products")
         .getPublicUrl(fileName);
 
-      const imageUrl = data.publicUrl;
+      const imageUrl = publicData.publicUrl;
 
-      // Save product to database
+      alert("7. Saving product to database...");
+
       const { data: productData, error: insertError } = await supabase
         .from("products")
         .insert({
@@ -52,12 +57,12 @@ export default function AdminPage() {
         .select();
 
       if (insertError) {
-        alert(`Insert error: ${insertError.message}`);
+        alert(`8. Insert error: ${insertError.message}`);
         throw insertError;
       }
 
       console.log(productData);
-      alert("Product saved!");
+      alert("9. Product saved!");
 
       setName("");
       setPrice("");
@@ -65,10 +70,10 @@ export default function AdminPage() {
       setImage(null);
     } catch (err) {
       console.error(err);
-      alert(`Something went wrong: ${err.message}`);
+      alert(`10. Something went wrong: ${err.message}`);
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
@@ -113,7 +118,11 @@ export default function AdminPage() {
       <input
         type="file"
         accept="image/*"
-        onChange={(e) => setImage(e.target.files[0])}
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          setImage(file);
+          console.log("Selected file:", file);
+        }}
       />
 
       <br />
